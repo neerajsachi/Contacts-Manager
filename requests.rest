@@ -5,9 +5,9 @@ POST http://localhost:9000/users
 Content-Type: application/json
 
 {
-    "name":"Sharun",
-    "email":"ioj@gmail.com",
-    "phone":872302
+    "name":"Shwarsssun",
+    "email":"isssoj@gmail.com",
+    "phone":87233302
 }
 
 ###
@@ -18,10 +18,10 @@ PUT http://localhost:9000/users/6612e5f26bedbaba9cd42d32
 Content-Type: application/json
 
 {
-    "name":"Meghna",
+    "name":"Neeraj",
     "email":"jjih@gmail.com",
     "phone":39080003
 }
 
 ###
-DELETE http://localhost:9000/users/6612ea5b6e7b6a00bd5f048b
+DELETE http://localhost:9000/users/6661f176af5edaec474ba514
