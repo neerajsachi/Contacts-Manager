@@ -18,7 +18,7 @@ function CreateUser(){
         axios.post('http://localhost:9000/users', {name,email,phone})
         .then(res=>{
             dispatch(addUser(res.data))
-            navigate('/')
+            navigate('/users')
         })
         .catch(err=>console.log(err))
     }

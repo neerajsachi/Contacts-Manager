@@ -7,6 +7,8 @@ import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { getUser } from './redux/userSlice'
 import UpdateUser from './UpdateUser'
+import Login from './Login'
+import NewUser from './NewUser'
 
 
 function App(){
@@ -28,7 +30,9 @@ function App(){
   return(
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Users />}></Route>
+        <Route path='/' element={<Login />}></Route>
+        <Route path='/newuser' element={<NewUser />}></Route>
+        <Route path='/users' element={<Users />}></Route>
         <Route path='/create' element={<CreateUser />}></Route>
         <Route path='/edit/:id' element={<UpdateUser />}></Route>
       </Routes>

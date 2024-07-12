@@ -3,12 +3,14 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getUser } from "./redux/userSlice";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 function Users() {
     
     const users= useSelector(state=> state.users.users)
     const dispatch=useDispatch();
+    const navigate = useNavigate();
 
     const handleDelete=(id)=>{
         axios.delete(`http://localhost:9000/users/${id}`)
@@ -18,6 +20,9 @@ function Users() {
         }).catch(err=>console.log(err))
     }
     
+    const logout = () => {
+        navigate('/');
+    };
 
     return ( 
         <div className="d-flex vh-100 bg-primary justify-content-center align-items-center">
@@ -51,6 +56,7 @@ function Users() {
                             }
                         </tbody>
                     </table>
+                    <button onClick={logout} className="btn btn-sm btn-danger">Logout</button>
                 </div>
             </div>
         </div>

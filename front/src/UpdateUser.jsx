@@ -23,10 +23,10 @@ function UpdateUser(){
 
     const handleUpdate=(e)=>{
         e.preventDefault()
-        axios.put(`http://localhost:9000/users/${id}`, {name,email,phone})
+        axios.put('http://localhost:9000/users/'+id, {name,email,phone})
         .then(res=>{
             dispatch(updateUser({id,name,email,phone}))
-            navigate('/')
+            navigate('/users')
         })
         .catch(err=>console.log(err))
     }
@@ -61,7 +61,7 @@ function UpdateUser(){
                     <div className="mb-2">
                         <label htmlFor="">Phone</label>
                         <input 
-                            type="text"
+                            type="number"
                             placeholder="Enter phone"
                             className="form-control"
                             value={phone}

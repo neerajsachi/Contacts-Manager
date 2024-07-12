@@ -5,9 +5,10 @@ POST http://localhost:9000/users
 Content-Type: application/json
 
 {
-    "name":"Shwarsssun",
-    "email":"isssoj@gmail.com",
-    "phone":87233302
+    "name":"nidhu",
+    "email":"nidhu@gmail.com",
+    "phone":45,
+    "password":"qww"
 }
 
 ###
@@ -25,3 +26,21 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:9000/users/6661f176af5edaec474ba514
+
+###
+POST http://localhost:9000/users/login
+Content-Type: application/json
+
+{
+    "email":"nidhu@gmail.com",
+    "password":"qww"
+}
+
+###
+POST http://localhost:9000/users/register
+Content-Type: application/json
+
+{
+    "email":"abcde@gmail.com",
+    "password":"abcd"
+}
