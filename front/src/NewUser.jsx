@@ -2,19 +2,46 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function NewUser(){
-    const [email,setEmail]= useState("")
-    const [password,setPassword]= useState("")
+function NewUser() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState("");
+    const [gender, setGender] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+    const [profilePicture, setProfilePicture] = useState(null);
 
     const navigate = useNavigate();
+
+    const handleFileChange = (e) => {
+        setProfilePicture(e.target.files[0]);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('firstName', firstName);
+        formData.append('lastName', lastName);
+        formData.append('dateOfBirth', dateOfBirth);
+        formData.append('gender', gender);
+        formData.append('phone', phone);
+        formData.append('address', address);
+        formData.append('profilePicture', profilePicture);
+
         try {
-            const response = await axios.post('http://localhost:9000/users/register', { email, password });
+            const response = await axios.post('http://localhost:9000/users/register', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             if (response.status === 201) {
                 alert('User created successfully');
+                navigate('/');
             }
         } catch (err) {
             if (err.response) {
@@ -26,14 +53,10 @@ function NewUser(){
             }
         }
     };
-    
-    
 
     const back = () => {
         navigate('/');
     };
-
-
 
     return (
         <div className="d-flex vh-100 bg-primary justify-content-center align-items-center">
@@ -42,25 +65,97 @@ function NewUser(){
                     <h2>New User</h2>
                     <div className="mb-2 row">
                         <div className="col">
-                            <label htmlFor="">Email</label>
+                            <label>Email</label>
                             <input 
                                 type="email"
                                 placeholder="Enter Email"
                                 className="form-control"
-                                onChange={(e)=> setEmail(e.target.value)}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
                             />
                         </div>
                     </div>
                     <div className="mb-2">
-                        <label htmlFor="">Password</label>
+                        <label>Password</label>
                         <input 
                             type="password"
                             placeholder="Enter password"
                             className="form-control"
-                            onChange={(e)=> setPassword(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
                         />
                     </div>
-                    <button className="btn btn-success">Create</button>
+                    <div className="mb-2 row">
+                        <div className="col">
+                            <label>First Name</label>
+                            <input 
+                                type="text"
+                                placeholder="Enter First Name"
+                                className="form-control"
+                                onChange={(e) => setFirstName(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="col">
+                            <label>Last Name</label>
+                            <input 
+                                type="text"
+                                placeholder="Enter Last Name"
+                                className="form-control"
+                                onChange={(e) => setLastName(e.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div className="mb-2">
+                        <label>Date of Birth</label>
+                        <input 
+                            type="date"
+                            className="form-control"
+                            onChange={(e) => setDateOfBirth(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="mb-2">
+                        <label>Gender</label>
+                        <select className="form-control" onChange={(e) => setGender(e.target.value)} required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div className="mb-2">
+                        <label>Phone</label>
+                        <input 
+                            type="text"
+                            placeholder="Enter Phone"
+                            className="form-control"
+                            onChange={(e) => setPhone(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="mb-2">
+                        <label>Address</label>
+                        <input 
+                            type="text"
+                            placeholder="Enter Address"
+                            className="form-control"
+                            onChange={(e) => setAddress(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="mb-2">
+                        <label>Profile Picture</label>
+                        <input 
+                            type="file"
+                            className="form-control"
+                            onChange={handleFileChange}
+                            accept="image/png, image/jpeg"
+                            required
+                        />
+                    </div>
+                    <button className="btn btn-success" type="submit">Create</button>
                 </form>
                 <button className="btn btn-primary mt-3" onClick={back}>Back</button>
             </div>

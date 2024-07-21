@@ -2,15 +2,13 @@
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
-    name:{
-        type: String
-    },
-    email:{
-        type: String
-    },
-    phone:{
-        type:Number
-    }
-})
+    fname: { type: String, required: true },
+    lname: { type: String, required: true },
+    address: { type: String, required: true },
+    company: { type: String, required: true },
+    phone: { type: Number, required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'AuthUser', required: true } // Reference to the AuthUser
+});
 
-module.exports= mongoose.model('Users', userSchema)
+
+module.exports= mongoose.model('User', userSchema)

@@ -5,29 +5,18 @@ import CreateUser from './CreateUser'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
-import { getUser } from './redux/userSlice'
+import { getUser,setToken } from './redux/userSlice'
 import UpdateUser from './UpdateUser'
 import Login from './Login'
 import NewUser from './NewUser'
+import store from './redux/store'; 
+import { Provider } from 'react-redux'
 
 
 function App(){
 
-  const dispatch= useDispatch()
-
-  useEffect(()=>{
-    const fetchData=async()=>{
-        try{
-            const response=await axios.get('http://localhost:9000/users');
-            dispatch(getUser(response.data));
-        }catch(err){
-            console.log(err)
-        }
-    }
-    fetchData();
-},[])
-
   return(
+    <Provider store={store}>
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Login />}></Route>
@@ -37,6 +26,7 @@ function App(){
         <Route path='/edit/:id' element={<UpdateUser />}></Route>
       </Routes>
     </BrowserRouter>
+    </Provider>
   )
 }
 

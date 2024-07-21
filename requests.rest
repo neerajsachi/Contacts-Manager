@@ -1,39 +1,47 @@
 GET http://localhost:9000/users
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njk3NjgxOTdhODMxMzBhMDUzOWY4YmQiLCJlbWFpbCI6ImFiY2RAZ21haWwuY29tIiwiaWF0IjoxNzIxNTQ3NjQzfQ.toofptewONPOLjmRdtdr6g3G_AgWU-xlwD0KKXiry4c
 ###
 POST http://localhost:9000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njk3NjgxOTdhODMxMzBhMDUzOWY4YmQiLCJlbWFpbCI6ImFiY2RAZ21haWwuY29tIiwiaWF0IjoxNzIxNTQ3NjQzfQ.toofptewONPOLjmRdtdr6g3G_AgWU-xlwD0KKXiry4c
 Content-Type: application/json
 
 {
-    "name":"nidhu",
-    "email":"nidhu@gmail.com",
-    "phone":45,
-    "password":"qww"
+    "fname":"nifefi",
+    "lname":"efje f",
+    "address":"efje",
+    "company":"efje",
+    "phone":34
 }
 
 ###
-GET http://localhost:9000/users/6612e46224332910f5b5b7e8
+GET http://localhost:9000/users/6690e97afb5df7e8b4bc541b
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njk3NjgxOTdhODMxMzBhMDUzOWY4YmQiLCJlbWFpbCI6ImFiY2RAZ21haWwuY29tIiwiaWF0IjoxNzIxMjk1ODI5fQ.8DN7gWcRqW55SvYbzC3o9OklqdtukICAk6ySZYlPR1g
 
 ###
-PUT http://localhost:9000/users/6612e5f26bedbaba9cd42d32
+PUT http://localhost:9000/users/669cc0c405f17104166de298
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5lZXJhanNhY2hpMTIzNEBnbWFpbC5jb20iLCJpYXQiOjE3MjA3NzI5NTR9.IqoF2wHN3WozGP07CKl_OamV0Ne8Et0b3jTWfYE4WyA
 Content-Type: application/json
 
 {
-    "name":"Neeraj",
+    "fname":"Neeraj",
+    "lname":"Sachi",
+    "address":"efeff",
     "email":"jjih@gmail.com",
-    "phone":39080003
+    "phone":39080003,
+    "company":"ffeef"
 }
 
 ###
-DELETE http://localhost:9000/users/6661f176af5edaec474ba514
+DELETE http://localhost:9000/users/669cc0c405f17104166de298
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5lZXJhanNhY2hpMTIzNEBnbWFpbC5jb20iLCJpYXQiOjE3MjA3NzI5NTR9.IqoF2wHN3WozGP07CKl_OamV0Ne8Et0b3jTWfYE4WyA
 
 ###
 POST http://localhost:9000/users/login
 Content-Type: application/json
 
 {
-    "email":"nidhu@gmail.com",
-    "password":"qww"
+    "email":"abcd@gmail.com",
+    "password":"reju2002"
 }
 
 ###
@@ -41,6 +49,13 @@ POST http://localhost:9000/users/register
 Content-Type: application/json
 
 {
-    "email":"abcde@gmail.com",
-    "password":"abcd"
+    "email": "neerajsachi1234@gmail.com",
+    "password": "reju2fefef002",
+    "firstName": "raj",
+    "lastName": "Sachi",
+    "dateOfBirth": "2002-06-14",
+    "gender": "male",
+    "phone": "16235239875",
+    "address": "123 Main St, Anytown, USA",
+    "profilePicture": "https://shorturl.at/k6IqA"
 }

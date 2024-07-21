@@ -1,36 +1,66 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const userSlice= createSlice({
+const userSlice = createSlice({
     name: "users",
     initialState: {
-        users:[]
+        users: [],
+        token: null,
+        loggedInUser: null
     },
-    reducers:{
-        getUser : (state, action)=>{
-            state.users= action.payload.map(user=>{
-                return {id: user._id, name: user.name, email: user.email, phone: user.phone}
-            })
-            
+    reducers: {
+        getUser: (state, action) => {
+            state.users = action.payload.map(user => ({
+                id: user._id,
+                fname: user.fname,
+                lname: user.lname,
+                address: user.address,
+                company: user.company,
+                phone: user.phone
+            }));
         },
-        addUser :(state,action)=>{
-            state.users.push(action.payload)
+        addUser: (state, action) => {
+            const user = {
+                id: action.payload._id,
+                fname: action.payload.fname,
+                lname: action.payload.lname,
+                address: action.payload.address,
+                company: action.payload.company,
+                phone: action.payload.phone
+            };
+            state.users.push(user);
         },
-        updateUser :(state,action)=>{
-            const index= state.users.findIndex(x=>x.id===action.payload.id)
-            state.users[index]={
-                id:action.payload.id,
-                name:action.payload.name,
-                email:action.payload.email,
-                phone:action.payload.phone
+        updateUser: (state, action) => {
+            const { id, fname, lname, address, company, phone } = action.payload;
+            const index = state.users.findIndex(user => user.id === id);
+            if (index !== -1) {
+                state.users[index] = {
+                    ...state.users[index],
+                    fname,
+                    lname,
+                    address,
+                    company,
+                    phone
+                };
             }
-
         },
-        deleteUser:(state,action)=>{
-            const id=action.payload.id;
-            state.users=state.users.filter(u=>u.id !==id)
+        deleteUser: (state, action) => {
+            const id = action.payload.id;
+            state.users = state.users.filter(u => u.id !== id);
+        },
+        setToken: (state, action) => {
+            state.token = action.payload;
+        },
+        clearToken: (state) => {
+            state.token = null;
+        },
+        setLoggedInUser: (state, action) => { // Add this action
+            state.loggedInUser = action.payload;
+        },
+        clearLoggedInUser: (state) => { // Add this action
+            state.loggedInUser = null;
         }
     }
-})
+});
 
-export const{getUser, addUser,updateUser,deleteUser}=userSlice.actions;
+export const { getUser, addUser, updateUser, deleteUser, setToken, clearToken, setLoggedInUser, clearLoggedInUser} = userSlice.actions;
 export default userSlice.reducer;

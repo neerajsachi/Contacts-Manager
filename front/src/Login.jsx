@@ -1,20 +1,29 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { setLoggedInUser, setToken } from "./redux/userSlice";
+import { useDispatch } from "react-redux";
 
 function Login(){
     const [email,setEmail]= useState("")
     const [password,setPassword]= useState("")
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit=(e)=>{
         e.preventDefault()
         axios.post('http://localhost:9000/users/login', {email,password})
         .then(res=>{
+            const { accessToken, user } = res.data;
+            localStorage.setItem('token', accessToken);
+            dispatch(setToken(accessToken));
+            dispatch(setLoggedInUser(user));
             navigate('/users')
         })
-        .catch(err=>alert("Invalid email or password"))
+        .catch(err=>
+            console.log(err),
+            alert("Invalid email or password"))
     }
 
     const handleCreateUser = () => {
@@ -35,7 +44,9 @@ function Login(){
                                 type="email"
                                 placeholder="Enter Email"
                                 className="form-control"
+                                value={email}
                                 onChange={(e)=> setEmail(e.target.value)}
+                                required
                             />
                         </div>
                     </div>
@@ -45,7 +56,9 @@ function Login(){
                             type="password"
                             placeholder="Enter password"
                             className="form-control"
+                            value={password}
                             onChange={(e)=> setPassword(e.target.value)}
+                            required
                         />
                     </div>
                     <button className="btn btn-success">Login</button>

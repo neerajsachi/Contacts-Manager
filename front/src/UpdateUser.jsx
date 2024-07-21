@@ -3,33 +3,71 @@ import axios from "axios";
 import { updateUser } from "./redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 
 
 function UpdateUser(){
 
     const {id}= useParams()
-    console.log(id)
+    console.log("useParams id:", id);
     const users = useSelector(state=>state.users.users)
     const user=users.find(u=>u.id===id)
+    console.log("Found user:", user);
+    const token = useSelector(state => state.users.token);
     console.log(user)
 
-    const [name, setName] = useState(user.name);
-    const [email, setEmail] = useState(user.email);
-    const [phone, setPhone] = useState(user.phone);
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+    const [company, setCompany] = useState("");
 
     const dispatch= useDispatch();
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (user) {
+            setFirstName(user.fname);
+            setLastName(user.lname);
+            setPhone(user.phone);
+            setAddress(user.address);
+            setCompany(user.company);
+        }
+    }, [user]);
+
     const handleUpdate=(e)=>{
         e.preventDefault()
-        axios.put('http://localhost:9000/users/'+id, {name,email,phone})
+        axios.put(`http://localhost:9000/users/${id}`, {
+            fname: firstName,
+            lname: lastName,
+            address: address,
+            company: company,
+            phone: phone
+        },{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }})
         .then(res=>{
-            dispatch(updateUser({id,name,email,phone}))
+            dispatch(updateUser({
+                id: id,
+                fname: firstName,
+                lname: lastName,
+                address: address,
+                company: company,
+                phone: phone
+            }));
             navigate('/users')
         })
         .catch(err=>console.log(err))
+
     }
+
+    const back=()=>{
+        navigate('/users')
+        
+    }
+
 
     return (
         <div className="d-flex vh-100 bg-primary justify-content-center align-items-center">
@@ -38,38 +76,59 @@ function UpdateUser(){
                     <h2>Update User</h2>
                     <div className="mb-2 row">
                         <div className="col">
-                            <label htmlFor="">Name</label>
+                            <label>First Name</label>
                             <input 
                                 type="text"
-                                placeholder="Enter name"
+                                placeholder="Enter First Name"
                                 className="form-control"
-                                value={name}
-                                onChange={(e)=> setName(e.target.value)}
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
                             />
                         </div>
                         <div className="col">
-                            <label htmlFor="">Email</label>
+                            <label>Last Name</label>
                             <input 
-                                type="email"
-                                placeholder="Enter Email"
+                                type="text"
+                                placeholder="Enter Last Name"
                                 className="form-control"
-                                value={email}
-                                onChange={(e)=> setEmail(e.target.value)}
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
                             />
                         </div>
                     </div>
                     <div className="mb-2">
-                        <label htmlFor="">Phone</label>
+                        <label>Address</label>
+                        <input 
+                            type="text"
+                            placeholder="Enter Address"
+                            className="form-control"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-2">
+                        <label>Company</label>
+                        <input 
+                            type="text"
+                            placeholder="Enter Company"
+                            className="form-control"
+                            value={company}
+                            onChange={(e) => setCompany(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-2">
+                        <label>Phone</label>
                         <input 
                             type="number"
-                            placeholder="Enter phone"
+                            placeholder="Enter Phone"
                             className="form-control"
                             value={phone}
-                            onChange={(e)=> setPhone(e.target.value)}
+                            onChange={(e) => setPhone(e.target.value)}
                         />
                     </div>
                     <button className="btn btn-success">Update</button>
                 </form>
+                <button className="btn btn-primary mt-3" onClick={back}>Back</button>
             </div>
         </div>
     );

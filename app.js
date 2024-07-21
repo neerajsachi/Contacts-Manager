@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 
 const app = express();
 app.use(cors());
+app.use(express.json())
+
 
 const url = 'mongodb://localhost:27017/UsersDB'
 mongoose.connect(url, {useNewUrlParser:true})
@@ -24,7 +26,7 @@ con2.on('open', () =>{
     console.log("Database 2 connected...")
 })
 
-app.use(express.json())
+
 
 const usersRouter= require('./routers/users')
 app.use('/users', usersRouter)
