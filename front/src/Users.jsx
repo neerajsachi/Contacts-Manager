@@ -22,21 +22,23 @@ function Users() {
     const currentPosts = users.slice(indexOfFirstPost, indexOfLastPost);
 
     const [search, setSearch] = useState('');
+    const apiUrl = import.meta.env.VITE_API_URL_USERS;
+    
 
     useEffect(() => {
+        console.log("Token at mount: ", token);
         if (!token) {
             navigate('/');
             return;
         }
 
-        axios.get('http://localhost:9000/users', {
+        axios.get(apiUrl, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
         .then(res => {
-            // Ensure you're dispatching only the users array
-            dispatch(getUser(res.data)); // Adjust according to your API response structure
+            dispatch(getUser(res.data)); 
         })
         .catch(err => {
             console.error(err);
@@ -57,15 +59,13 @@ function Users() {
             return;
         }
 
-        axios.delete(`http://localhost:9000/users/${id}`, {
+        axios.delete(`${apiUrl}/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
         .then(res => {
             dispatch(deleteUser({ id }));
-
-            // Check if the current page is now empty and adjust the currentPage state if necessary
             const totalPages = Math.ceil(users.length / postsPerPage);
             if (currentPage > totalPages) {
                 setCurrentPage(totalPages);

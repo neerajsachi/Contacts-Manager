@@ -9,7 +9,7 @@ const authUserSchema = new mongoose.Schema({
     gender: { type: String, required: true },
     phone: { type: String, required: true },
     address: { type: String, required: true },
-    profilePicture: { type: String } // URL to the profile picture
+    profilePicture: { type: String } 
 });
 
 const AuthUser = mongoose.model('AuthUser', authUserSchema);

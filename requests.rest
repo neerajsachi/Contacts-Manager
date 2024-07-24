@@ -1,6 +1,6 @@
 GET http://localhost:9000/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njk3NjgxOTdhODMxMzBhMDUzOWY4YmQiLCJlbWFpbCI6ImFiY2RAZ21haWwuY29tIiwiaWF0IjoxNzIxNTQ3NjQzfQ.toofptewONPOLjmRdtdr6g3G_AgWU-xlwD0KKXiry4c
-###
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njk3NjgxOTdhODMxMzBhMDUzOWY4YmQiLCJpYXQiOjE3MjE2Mzg1OTIsImV4cCI6MTcyMTY0MjE5Mn0.-6t0H1cWSiN1QPH4_NgncVS3q4nDKCkr9eSHcBr0YMU
+
 POST http://localhost:9000/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njk3NjgxOTdhODMxMzBhMDUzOWY4YmQiLCJlbWFpbCI6ImFiY2RAZ21haWwuY29tIiwiaWF0IjoxNzIxNTQ3NjQzfQ.toofptewONPOLjmRdtdr6g3G_AgWU-xlwD0KKXiry4c
 Content-Type: application/json
@@ -40,7 +40,7 @@ POST http://localhost:9000/users/login
 Content-Type: application/json
 
 {
-    "email":"abcd@gmail.com",
+    "email":"abcdgmal.com",
     "password":"reju2002"
 }
 

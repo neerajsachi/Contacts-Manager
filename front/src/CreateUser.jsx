@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { addUser } from "./redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,13 +13,84 @@ function CreateUser(){
     const [address, setAddress] = useState("");
     const [company, setCompany] = useState("");
 
+    const [fnameError, setFnameError] = useState("");
+    const [lnameError, setLnameError] = useState("");
+    const [phoneError, setPhoneError] = useState("");
+    const [addressError, setAddressError] = useState("");
+    const [companyError, setCompanyError] = useState("");
+    const [formError, setFormError] = useState("");
+
     const dispatch= useDispatch();
     const navigate = useNavigate();
     const token = useSelector((state) => state.users.token);
 
+    const apiUrl = import.meta.env.VITE_API_URL_USERS;
+
+
+    useEffect(() => {
+        if (!token) {
+            alert("Unauthorized");
+            navigate('/');
+        }
+    }, [token, navigate]);
+
+    const validatePhone = (phone) => {
+        const regex = /^[0-9]+$/;
+        return regex.test(phone);
+    };
+
     const handleSubmit=(e)=>{
         e.preventDefault()
-        axios.post('http://localhost:9000/users', {
+
+        let valid = true;
+
+        if (!fname || !lname || !phone || !address || !company) {
+            setFormError("Please fill the above fields");
+            valid = false;
+        } else {
+            setFormError("");
+        }
+
+        if (!fname) {
+            setFnameError("First name is required");
+            valid = false;
+        } else {
+            setFnameError("");
+        }
+
+        if (!lname) {
+            setLnameError("Last name is required");
+            valid = false;
+        } else {
+            setLnameError("");
+        }
+
+        if (!phone || !validatePhone(phone)) {
+            setPhoneError("Valid phone number is required");
+            valid = false;
+        } else {
+            setPhoneError("");
+        }
+
+        if (!address) {
+            setAddressError("Address is required");
+            valid = false;
+        } else {
+            setAddressError("");
+        }
+
+        if (!company) {
+            setCompanyError("Company is required");
+            valid = false;
+        } else {
+            setCompanyError("");
+        }
+
+        if (!valid) {
+            return;
+        }
+
+        axios.post(apiUrl, {
             fname,
             lname,
             address,
@@ -56,6 +127,7 @@ function CreateUser(){
                                 className="form-control"
                                 onChange={(e) => setFirstName(e.target.value)}
                             />
+                            {fnameError && <div className="text-danger">{fnameError}</div>}
                         </div>
                         <div className="col">
                             <label htmlFor="">Last Name</label>
@@ -66,6 +138,7 @@ function CreateUser(){
                                 onChange={(e) => setLastName(e.target.value)}
                             />
                         </div>
+                    {lnameError && <div className="text-danger">{lnameError}</div>}
                     </div>
                     <div className="mb-2">
                         <label htmlFor="">Phone</label>
@@ -75,6 +148,7 @@ function CreateUser(){
                             className="form-control"
                             onChange={(e) => setPhone(e.target.value)}
                         />
+                    {phoneError && <div className="text-danger">{phoneError}</div>}
                     </div>
                     <div className="mb-2">
                         <label htmlFor="">Address</label>
@@ -84,6 +158,7 @@ function CreateUser(){
                             className="form-control"
                             onChange={(e) => setAddress(e.target.value)}
                         />
+                        {addressError && <div className="text-danger">{addressError}</div>}
                     </div>
                     <div className="mb-2">
                         <label htmlFor="">Company</label>
@@ -93,6 +168,7 @@ function CreateUser(){
                             className="form-control"
                             onChange={(e) => setCompany(e.target.value)}
                         />
+                        {companyError && <div className="text-danger">{companyError}</div>}
                     </div>
                     <button className="btn btn-success">Create</button>
                 </form>

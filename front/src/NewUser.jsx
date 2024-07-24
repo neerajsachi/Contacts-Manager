@@ -13,7 +13,36 @@ function NewUser() {
     const [address, setAddress] = useState("");
     const [profilePicture, setProfilePicture] = useState(null);
 
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [phoneError, setPhoneError] = useState("");
+    const [dobError, setDobError] = useState("");
+    const [formError, setFormError] = useState("");
+
+    const apiUrl = import.meta.env.VITE_API_URL_REGISTER
+
     const navigate = useNavigate();
+
+    const validateEmail = (email) => {
+        const regex =  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return regex.test(email);
+    };
+
+    const validatePhone = (phone) => {
+        const regex = /^[0-9]+$/;
+        return regex.test(phone);
+    };
+
+    const validateDob = (dob) => {
+        const date = new Date(dob);
+        const today = new Date();
+        let age = today.getFullYear() - date.getFullYear();
+        const month = today.getMonth() - date.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < date.getDate())) {
+            age--;
+        }
+        return !isNaN(date.getTime()) && date < today && age >= 18; 
+    };
 
     const handleFileChange = (e) => {
         setProfilePicture(e.target.files[0]);
@@ -21,7 +50,47 @@ function NewUser() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        let valid = true;
+
+        if (!email || !password || !firstName || !lastName || !dateOfBirth || !gender || !phone || !address || !profilePicture) {
+            setFormError("Please fill the above fields");
+            valid = false;
+        } else {
+            setFormError("");
+        }
+
+        if (email && !validateEmail(email)) {
+            setEmailError("Invalid email format");
+            valid = false;
+        } else {
+            setEmailError("");
+        }
+
+        if (password && password.length < 6) {
+            setPasswordError("Password must be at least 6 characters");
+            valid = false;
+        } else {
+            setPasswordError("");
+        }
+
+        if (dateOfBirth && !validateDob(dateOfBirth)) {
+            setDobError("Invalid date of birth. You must be at least 18 years old.");
+            valid = false;
+        } else {
+            setDobError("");
+        }
+
+        if (phone && !validatePhone(phone)) {
+            setPhoneError("Phone number must contain only numbers");
+            valid = false;
+        } else {
+            setPhoneError("");
+        }
+
+        if (!valid) {
+            return;
+        }
+
         const formData = new FormData();
         formData.append('email', email);
         formData.append('password', password);
@@ -34,7 +103,7 @@ function NewUser() {
         formData.append('profilePicture', profilePicture);
 
         try {
-            const response = await axios.post('http://localhost:9000/users/register', formData, {
+            const response = await axios.post(apiUrl, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -73,6 +142,7 @@ function NewUser() {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
+                            {emailError && <div className="text-danger">{emailError}</div>}
                         </div>
                     </div>
                     <div className="mb-2">
@@ -84,6 +154,7 @@ function NewUser() {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
+                        {passwordError && <div className="text-danger">{passwordError}</div>}
                     </div>
                     <div className="mb-2 row">
                         <div className="col">
@@ -113,8 +184,11 @@ function NewUser() {
                             type="date"
                             className="form-control"
                             onChange={(e) => setDateOfBirth(e.target.value)}
+                            min="1950-01-01"
+                            max={new Date().toISOString().split("T")[0]}
                             required
                         />
+                        {dobError && <div className="text-danger">{dobError}</div>}
                     </div>
                     <div className="mb-2">
                         <label>Gender</label>
@@ -134,6 +208,7 @@ function NewUser() {
                             onChange={(e) => setPhone(e.target.value)}
                             required
                         />
+                        {phoneError && <div className="text-danger">{phoneError}</div>}
                     </div>
                     <div className="mb-2">
                         <label>Address</label>
@@ -156,6 +231,7 @@ function NewUser() {
                         />
                     </div>
                     <button className="btn btn-success" type="submit">Create</button>
+                    {formError && <div className="text-danger mt-2">{formError}</div>}
                 </form>
                 <button className="btn btn-primary mt-3" onClick={back}>Back</button>
             </div>

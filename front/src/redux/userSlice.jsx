@@ -53,10 +53,10 @@ const userSlice = createSlice({
         clearToken: (state) => {
             state.token = null;
         },
-        setLoggedInUser: (state, action) => { // Add this action
+        setLoggedInUser: (state, action) => { 
             state.loggedInUser = action.payload;
         },
-        clearLoggedInUser: (state) => { // Add this action
+        clearLoggedInUser: (state) => { 
             state.loggedInUser = null;
         }
     }

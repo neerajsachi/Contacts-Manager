@@ -16,6 +16,16 @@ function UpdateUser(){
     console.log("Found user:", user);
     const token = useSelector(state => state.users.token);
     console.log(user)
+    const dispatch= useDispatch();
+    const navigate = useNavigate();
+    const apiUrl = import.meta.env.VITE_API_URL_USERS;
+
+    useEffect(() => {
+        if (!token) {
+            alert("Unauthorized");
+            navigate('/');
+        }
+    }, [token, navigate]);
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -23,8 +33,7 @@ function UpdateUser(){
     const [address, setAddress] = useState("");
     const [company, setCompany] = useState("");
 
-    const dispatch= useDispatch();
-    const navigate = useNavigate();
+    
 
     useEffect(() => {
         if (user) {
@@ -38,7 +47,7 @@ function UpdateUser(){
 
     const handleUpdate=(e)=>{
         e.preventDefault()
-        axios.put(`http://localhost:9000/users/${id}`, {
+        axios.put(`${apiUrl}/${id}`, {
             fname: firstName,
             lname: lastName,
             address: address,

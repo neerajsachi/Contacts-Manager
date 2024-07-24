@@ -1,35 +1,33 @@
-const express = require('express')
+require('dotenv').config();
+const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-
 const app = express();
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 
+const url = process.env.MONGODB_URI;
+mongoose.connect(url, { useNewUrlParser: true });
+const con = mongoose.connection;
 
-const url = 'mongodb://localhost:27017/UsersDB'
-mongoose.connect(url, {useNewUrlParser:true})
-const con= mongoose.connection
+con.on('open', () => {
+    console.log("Database 1 connected...");
+});
 
-con.on('open', () =>{
-    console.log("Database 1 connected...")
-})
-
-
-const url2='mongodb://localhost:27017/test'
+const url2 = process.env.MONGODB_URI_2;
 const mongoose2 = new mongoose.Mongoose();
-mongoose2.connect(url2, {useNewUrlParser:true})
-const con2= mongoose2.connection
+mongoose2.connect(url2, { useNewUrlParser: true });
+const con2 = mongoose2.connection;
 
-con2.on('open', () =>{
-    console.log("Database 2 connected...")
-})
+con2.on('open', () => {
+    console.log("Database 2 connected...");
+});
 
+const usersRouter = require('./routes/users');
+app.use('/users', usersRouter);
 
-
-const usersRouter= require('./routers/users')
-app.use('/users', usersRouter)
-
-
-app.listen(9000)
+const port = process.env.PORT || 9000;
+app.listen(port, () => {
+    console.log("Server started on port 9000");
+});

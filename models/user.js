@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     address: { type: String, required: true },
     company: { type: String, required: true },
     phone: { type: Number, required: true },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'AuthUser', required: true } // Reference to the AuthUser
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'AuthUser', required: true } 
 });
 
 
