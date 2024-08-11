@@ -22,9 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-# Local environment files
-*.local
-.env
+
 
 
 npm-debug.log*
